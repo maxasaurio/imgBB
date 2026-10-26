@@ -22,7 +22,23 @@ const subirImagen = async (formData) => {
     })
     const data = await response.json();
     console.log(data)
+       // Procesamos la respuesta del servidor
+      if (data.success) {
+
+      const imageUrl = data.data.url; // URL de la imagen subida
+
+      resultDiv.innerHTML = `
+        <p style="color: green;">¡Imagen subida con éxito!</p>
+        <a href="${imageUrl}" target="_blank">Ver enlace directo</a>
+        <br><br>
+        <img src="${imageUrl}" alt="Subida" style="max-width: 300px; display: block; margin-top: 10px;" />
+      `;
+
+    } else {
+      resultDiv.innerHTML = `<p style="color: red;">Error de ImgBB: ${data.error.message}</p>`;
+    }
 
 }catch(error){
-    console.log(error)
+    console.error('Error en la petición:', error);
+    resultDiv.innerHTML = '<p style="color: red;">Ocurrió un error al conectar con el servidor.</p>';
 }}
